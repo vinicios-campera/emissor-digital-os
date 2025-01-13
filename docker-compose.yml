@@ -1,8 +1,8 @@
-name: order-service-test
+name: emissor-digital-os
 
 services:
-  order-service-api:
-    container_name: order-service-api-test
+  api:
+    container_name: emissor-digital-os-api
     build:
       context: .
       dockerfile: src/api/Api/Dockerfile
@@ -12,15 +12,15 @@ services:
     pull_policy: always
     restart: always
     ports:
-      - "5003:5003"
+      - "5002:5002"
     networks:
       - main
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://+:5002
       INITIAL_CATALOG: OrderServiceProd
-  order-service-web:
-    container_name: order-service-web-test
+  web:
+    container_name: emissor-digital-os-web
     build:
       context: src/web
       dockerfile: Dockerfile
@@ -29,7 +29,7 @@ services:
     pull_policy: always
     restart: always
     ports:
-      - "3003:80"
+      - "3000:80"
     networks:
       - main
 networks:
