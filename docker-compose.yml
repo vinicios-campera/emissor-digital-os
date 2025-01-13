@@ -6,6 +6,9 @@ services:
     build:
       context: .
       dockerfile: src/api/Api/Dockerfile
+      args:
+        GITHUB_USERNAME: ${GITHUB_USERNAME}
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
     pull_policy: always
     restart: always
     ports:
@@ -16,21 +19,19 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://+:5002
       INITIAL_CATALOG: OrderServiceProd
-      GITHUB_USERNAME: vinicioscampera@gmail.com
-      GITHUB_TOKEN: ghp_
   order-service-web:
     container_name: order-service-web
     build:
       context: src/web
       dockerfile: Dockerfile
+      args:
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
     pull_policy: always
     restart: always
     ports:
       - "3003:80"
     networks:
       - main
-    environment:
-      GITHUB_TOKEN: ghp_
 networks:
   main:
     name: main
