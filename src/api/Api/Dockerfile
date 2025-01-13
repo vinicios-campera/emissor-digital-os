@@ -14,7 +14,7 @@ COPY ["src/api/Infrastructure/Infrastructure.csproj", "src/api/Infrastructure/"]
 COPY ["src/api/Application/Application.csproj", "src/api/Application/"]
 COPY ["src/api/Domain/Domain.csproj", "src/api/Domain/"]
 
-RUN dotnet restore "./src/api/Api/OrderService.Api.csproj"
+RUN dotnet restore --configfile "./nuget.config" "./src/api/Api/OrderService.Api.csproj"
 COPY . .
 
 WORKDIR "/src/src/api/Api"
@@ -27,5 +27,5 @@ RUN dotnet publish "./OrderService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/p
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-LABEL org.opencontainers.image.source https://github.com/vinicios-campera/order-service
+LABEL org.opencontainers.image.source https://github.com/vinicios-campera/emissor-digital-os
 ENTRYPOINT ["dotnet", "OrderService.Api.dll"]
