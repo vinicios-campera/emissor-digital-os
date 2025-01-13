@@ -1,7 +1,7 @@
 name: order-service-test
 
 services:
-  order-service-api:
+  order-service-api-test:
     container_name: order-service-api
     build:
       context: .
@@ -19,7 +19,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://+:5002
       INITIAL_CATALOG: OrderServiceProd
-  order-service-web:
+  order-service-web-test:
     container_name: order-service-web
     build:
       context: src/web
