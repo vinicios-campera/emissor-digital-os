@@ -20,7 +20,9 @@ RUN dotnet nuget add source https://nuget.pkg.github.com/vinicios-campera/index.
     --name vinicios-campera-github \
     --username $GITHUB_USERNAME \
     --password $GITHUB_TOKEN \
-    --store-password-in-clear-text
+    --valid-authentication-types basic \
+    --store-password-in-clear-text \
+    --protocol-version 3
 
 RUN dotnet restore "./src/api/Api/OrderService.Api.csproj"
 COPY . .
