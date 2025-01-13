@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                    x:Class="OrderService.Resources.Themes.LightTheme">
+
+    <Color x:Key="Write1">#F8F8F8</Color>
+    <Color x:Key="Write2">#FFFFFF</Color>
+
+    <Color x:Key="Gray1">#838383</Color>
+    <Color x:Key="Gray2">#2F2F2F</Color>
+    <Color x:Key="Gray3">#222222</Color>
+    <Color x:Key="Gray4">#000000</Color>
+    <Color x:Key="Gray5">#030304</Color>
+    <Color x:Key="Gray6">#020101</Color>
+
+    <Color x:Key="Green1">#C8FACD</Color>
+    <Color x:Key="Green2">#5BE584</Color>
+    <Color x:Key="Green3">#00AB55</Color>
+    <Color x:Key="Green4">#007B55</Color>
+    <Color x:Key="Green5">#005249</Color>
+
+    <Color x:Key="Red1">#E02121</Color>
+    <Color x:Key="Red2">#FF0000</Color>
+    
+    <Color x:Key="Blue1">#F1F9FF</Color>
+    <Color x:Key="Blue2">#E1F1FF</Color>
+    <Color x:Key="Blue3">#E2F2FF</Color>
+    <Color x:Key="Blue4">#BCE0FF</Color>
+    <Color x:Key="Blue5">#4DC9FF</Color>
+    <Color x:Key="Blue6">#2599FF</Color>
+    <Color x:Key="Blue7">#4285F2</Color>
+    <Color x:Key="Blue8">#0082F1</Color>
+    <Color x:Key="Blue9">#0039A1</Color>
+
+</ResourceDictionary>

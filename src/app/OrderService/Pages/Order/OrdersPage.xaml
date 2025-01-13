@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Name="OrdersPageName"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:OrderService.Converters.Common"
+             xmlns:helpers="clr-namespace:OrderService.Helpers"
+             xmlns:Local="clr-namespace:OrderService.View.Order"
+             xmlns:converterPack="clr-namespace:Xamarin.Forms.ConvertersPack;assembly=Xamarin.Forms.ConvertersPack"
+             xmlns:extended="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling"
+             x:Class="OrderService.Pages.Order.OrdersPage"
+             Title="Ordens">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Priority="1"
+            Order="Primary"
+            Clicked="FilterOrders">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    Color="{StaticResource Write2}"
+                    FontFamily="{DynamicResource MaterialFontFamily}"
+                    Size="20"
+                    Glyph="{x:Static helpers:FontAwesomeIcons.Filter}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+
+        <ToolbarItem
+            Priority="2"
+            Order="Primary"
+            Clicked="AddOrder">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    Color="{StaticResource Write2}"
+                    FontFamily="{DynamicResource MaterialFontFamily}"
+                    Size="20"
+                    Glyph="{x:Static helpers:FontAwesomeIcons.Plus}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+
+        <ToolbarItem
+            Priority="3"
+            Order="Secondary"
+            Text="Compartilhar"
+            Clicked="ShareMultipleOrders" />
+
+        <ToolbarItem
+            Priority="4"
+            Order="Secondary"
+            Text="Excluir"
+            Clicked="RemoveMultipleOrders" />
+
+        <ToolbarItem
+            Priority="5"
+            Order="Secondary"
+            Text="Marcar como paga"
+            Clicked="SetPayMultipleOrders" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <converters:DateConverter x:Key="DateConverter" />
+        <converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+        <converters:ColorConverter x:Key="ColorConverter" />
+        <converterPack:CurrencyConverter x:Key="CurrencyConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <Local:OrdersViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout>
+        <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsAnyChecked}">
+            <Label FontSize="Small" Text="{Binding OrdersCheckedCount, StringFormat='{0} selecionada(s)'}" FontAttributes="Bold" />
+        </StackLayout>
+        <ListView ItemsSource="{Binding Items}" CachingStrategy="RecycleElement" HasUnevenRows="True" SelectionMode="None" ItemTapped="OrderSelected">
+            <ListView.Behaviors>
+                <extended:InfiniteScrollBehavior IsLoadingMore="{Binding IsBusy}" />
+            </ListView.Behaviors>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Margin="0,0,0,5" Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackLayout VerticalOptions="Start" Grid.Column="0">
+                                <CheckBox
+                                    VerticalOptions="Center"
+                                    Color="{DynamicResource Green4}"
+                                    IsChecked="{Binding IsChecked}"
+                                    CheckedChanged="ListOfOrdersCheckChanged" />
+                            </StackLayout>
+                            <StackLayout VerticalOptions="Center" Grid.Column="1">
+                                <Label Text="{Binding Client}" FontSize="Medium" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                <StackLayout Orientation="Horizontal" Spacing="5">
+                                    <Label Text="{Binding Identifier, StringFormat='N° {0}'}" FontSize="Subtitle" />
+                                    <Label Text="Paga" IsVisible="{Binding Pay}" TextColor="{Binding Pay, Converter={StaticResource ColorConverter}}" FontSize="Subtitle" />
+                                </StackLayout>
+                            </StackLayout>
+                            <Rectangle
+                                   Fill="{Binding Pay, Converter={StaticResource ColorToBrushConverter}}"
+                                   RadiusX="50"
+                                   RadiusY="10"
+                                   WidthRequest="8"
+                                   HeightRequest="35"
+                                   HorizontalOptions="End"
+                                   Grid.Column="3" />
+                            <StackLayout Orientation="Vertical" Spacing="5" Grid.Column="2">
+                                <Label FontSize="Subtitle" Text="{Binding DateInsert, Converter={StaticResource DateConverter}}"  HorizontalTextAlignment="End" />
+                                <Label Text="{Binding Amount, Converter={StaticResource CurrencyConverter}}" FontSize="Subtitle"  HorizontalTextAlignment="End" />
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+            <ListView.Footer>
+                <Grid Padding="6" IsVisible="{Binding IsBusy}">
+                    <Grid.Triggers>
+                        <Trigger TargetType="Grid" Property="IsVisible" Value="False">
+                            <Setter Property="HeightRequest" Value="0" />
+                        </Trigger>
+                    </Grid.Triggers>
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                       Color="{DynamicResource Green4}" VerticalOptions="Center"
+                                       HorizontalOptions="Center" />
+                </Grid>
+            </ListView.Footer>
+        </ListView>
+    </StackLayout>
+</ContentPage>

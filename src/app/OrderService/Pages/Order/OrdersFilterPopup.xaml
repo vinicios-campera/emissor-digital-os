@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:convertersCommon="clr-namespace:OrderService.Converters.Common"
+           xmlns:local="clr-namespace:OrderService.Models.Order"
+           xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+           xmlns:xct="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
+           x:TypeArguments="local:FilterOrdersPopupResult"
+           x:Class="OrderService.Pages.Order.OrdersFilterPopup"
+           x:Name="OrdersFilterPopupPage">
+
+    <xct:Popup.Resources>
+        <convertersCommon:MaskNumberConverter x:Key="MaskNumberConverter" />
+    </xct:Popup.Resources>
+
+    <ScrollView>
+        <StackLayout Padding="20" MinimumWidthRequest="400" Spacing="2">
+            <Label Text="Filtrar clientes" FontAttributes="Bold" FontSize="Medium" />
+            <BoxView HeightRequest="1" Color="LightGray" />
+            <input:FormView>
+                <Label Text="Nome do cliente" FontSize="Small" />
+                <input:AdvancedEntry
+                       TextFontSize="Small"
+                       TextColor="{DynamicResource Gray1}"
+                       Text="{Binding Path=ClientName, Source={x:Reference OrdersFilterPopupPage}}"
+                       Annotation="LettersOnly"
+                       AnnotationColor="{DynamicResource Red1}"
+                       ValidationMessage="Nome/Razão social invalido"
+                       MinLength="4"
+                       MaxLength="50"
+                       BorderColor="LightGray">
+                    <input:AdvancedEntry.Keyboard>
+                        <Keyboard x:FactoryMethod="Create">
+                            <x:Arguments>
+                                <KeyboardFlags>CapitalizeWord</KeyboardFlags>
+                            </x:Arguments>
+                        </Keyboard>
+                    </input:AdvancedEntry.Keyboard>
+                </input:AdvancedEntry>
+
+                <Label Text="Status da O.S." FontSize="Small" />
+                <input:RadioButtonGroupView SelectedItem="{Binding Path=FilterOrderType, Source={x:Reference OrdersFilterPopupPage}}" SelectedItemChanged="FilterTypesSelectedItemChanged" x:Name="FilterTypes" />
+
+                <Label Text="Ordenação" FontSize="Small" />
+                <input:RadioButtonGroupView SelectedItem="{Binding Path=OrderByOrderType, Source={x:Reference OrdersFilterPopupPage}}" SelectedItemChanged="OrderTypesSelectedItemChanged" x:Name="OrderTypes" />
+
+                <Label Text="Cadastrado em" FontSize="Small" />
+                <input:AdvancedEntry
+                       TextFontSize="Small"
+                       TextColor="{DynamicResource Gray1}"
+                       Text="{Binding Path=RegisterIn, Source={x:Reference OrdersFilterPopupPage}, Converter={StaticResource MaskNumberConverter}, ConverterParameter=##/##/####}"
+                       Annotation="DigitsOnly"
+                       AnnotationColor="{DynamicResource Red1}"
+                       ValidationMessage="Data inicio inválido"
+                       MinLength="12"
+                       MaxLength="12"
+                       BorderColor="LightGray" />
+
+                <Label Text="Até" FontSize="Small" />
+                <input:AdvancedEntry
+                       TextFontSize="Small"
+                       TextColor="{DynamicResource Gray1}"
+                       Text="{Binding Path=RegisterUntil, Source={x:Reference OrdersFilterPopupPage}, Converter={StaticResource MaskNumberConverter}, ConverterParameter=##/##/####}"
+                       Annotation="DigitsOnly"
+                       AnnotationColor="{DynamicResource Red1}"
+                       ValidationMessage="Data inicio inválido"
+                       MinLength="12"
+                       MaxLength="12"
+                       BorderColor="LightGray" />
+
+                <BoxView HeightRequest="1" Color="LightGray" />
+
+                <StackLayout Spacing="10" Orientation="Vertical">
+                    <Button
+                        Clicked="Filter"
+                        FontSize="Small"
+                        Text="Buscar"
+                        BackgroundColor="{DynamicResource Green4}"
+                        CornerRadius="20"
+                        HeightRequest="35"
+                        TextColor="White" />
+
+                    <Button
+                        TextColor="{DynamicResource Red1}"
+                        Clicked="ResetFilter"
+                        FontSize="Small"
+                        Text="Redefinir filtros"
+                        BackgroundColor="Transparent"
+                        CornerRadius="20"
+                        HeightRequest="35" />
+                </StackLayout>
+            </input:FormView>
+        </StackLayout>
+    </ScrollView>
+</xct:Popup>

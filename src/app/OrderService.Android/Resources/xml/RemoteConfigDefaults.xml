@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+	<entry>
+		<key>Urls</key>
+		<value>
+			{
+				"PrivacyPolicy": "https://osdigital.vintech.dev.br/privacy-policy",
+				"BaseUrlProduction": "https://osdigital.vintech.dev.br"
+			}
+		</value>
+	</entry>
+</defaultsMap>

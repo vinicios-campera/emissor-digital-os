@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>OrderService.Domain</RootNamespace>
+  </PropertyGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" />
+    <PackageReference Include="Kernel.Data" />
+    <PackageReference Include="Kernel.Net" />
+    <PackageReference Include="Kernel.Toolkit" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:convertersItem="clr-namespace:OrderService.Converters.Item"
+             xmlns:helpers="clr-namespace:OrderService.Helpers"
+             xmlns:Local="clr-namespace:OrderService.View.Item"
+             xmlns:converterPack="clr-namespace:Xamarin.Forms.ConvertersPack;assembly=Xamarin.Forms.ConvertersPack"
+             xmlns:extended="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling"
+             x:Class="OrderService.Pages.Item.ItemsPage"
+             Title="Produtos">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Priority="1"
+            Order="Primary"
+            Clicked="FilterItems">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    Color="{StaticResource Write2}"
+                    FontFamily="{DynamicResource MaterialFontFamily}"
+                    Size="20"
+                    Glyph="{x:Static helpers:FontAwesomeIcons.Filter}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+
+        <ToolbarItem
+            Priority="2"
+            Order="Primary"
+            Clicked="AddItem">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    Color="{StaticResource Write2}"
+                    FontFamily="{DynamicResource MaterialFontFamily}"
+                    Size="20"
+                    Glyph="{x:Static helpers:FontAwesomeIcons.Plus}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <convertersItem:MeasureConverter x:Key="MeasureConverter" />
+        <converterPack:CurrencyConverter x:Key="CurrencyConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <Local:ItemsViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout>
+        <ListView ItemsSource="{Binding Items}" CachingStrategy="RecycleElement" HasUnevenRows="True" ItemSelected="ItemSelected">
+            <ListView.Behaviors>
+                <extended:InfiniteScrollBehavior IsLoadingMore="{Binding IsBusy}" />
+            </ListView.Behaviors>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackLayout VerticalOptions="CenterAndExpand" Grid.Column="0">
+                                <Label Text="{Binding Description}" FontSize="Medium" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                <Label Text="{Binding UnitaryValue, Converter={StaticResource CurrencyConverter}}" FontSize="Subtitle" />
+                            </StackLayout>
+                            <StackLayout Grid.Column="1">
+                                <Label
+                                    FontSize="Caption"
+                                    Text="{Binding Measure, Converter={StaticResource MeasureConverter}}"
+                                    HorizontalTextAlignment="End" />
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+            <ListView.Footer>
+                <Grid Padding="6" IsVisible="{Binding IsBusy}">
+                    <Grid.Triggers>
+                        <Trigger TargetType="Grid" Property="IsVisible" Value="False">
+                            <Setter Property="HeightRequest" Value="0" />
+                        </Trigger>
+                    </Grid.Triggers>
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                       Color="{DynamicResource Green4}" VerticalOptions="Center"
+                                       HorizontalOptions="Center" />
+                </Grid>
+            </ListView.Footer>
+        </ListView>
+    </StackLayout>
+</ContentPage>

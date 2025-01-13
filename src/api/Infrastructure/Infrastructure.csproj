@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>OrderService.Infrastructure</RootNamespace>
+    <ImportApplicationPrj>true</ImportApplicationPrj>
+  </PropertyGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="itext7" />
+    <PackageReference Include="NPOI" />
+    <PackageReference Include="RestSharp" />
+    <PackageReference Include="ServiceStack" />
+  </ItemGroup>
+
+</Project>

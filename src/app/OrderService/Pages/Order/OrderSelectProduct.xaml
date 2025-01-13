@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:convertersCommon="clr-namespace:OrderService.Converters.Common"
+           xmlns:local="clr-namespace:OrderService.Models.Order"
+           xmlns:localView="clr-namespace:OrderService.View.Order"
+           xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+           xmlns:xct="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
+           xmlns:converterPack="clr-namespace:Xamarin.Forms.ConvertersPack;assembly=Xamarin.Forms.ConvertersPack"
+           x:TypeArguments="local:OrderSelectProductResult"
+           x:Class="OrderService.Pages.Order.OrderSelectProduct">
+
+    <xct:Popup.Resources>
+        <convertersCommon:MaskNumberConverter x:Key="MaskNumberConverter" />
+        <convertersCommon:DecimalConverter x:Key="DecimalConverter" />
+        <converterPack:CurrencyConverter x:Key="CurrencyConverter" />
+    </xct:Popup.Resources>
+
+    <xct:Popup.BindingContext>
+        <localView:OrderSelectProductView />
+    </xct:Popup.BindingContext>
+
+    <ScrollView>
+        <StackLayout Padding="20" MinimumWidthRequest="400" Spacing="2">
+            <Label Text="Adicionar um item" FontAttributes="Bold" FontSize="Medium" />
+            <BoxView HeightRequest="1" Color="LightGray" />
+            <input:FormView IsValidated="{Binding IsValidated}">
+                <Label Text="Selecione o produto (opcional):" FontSize="Small" IsVisible="{Binding ExistProducts}" />
+                <input:Dropdown
+                    IsVisible="{Binding ExistProducts}"
+                    FontSize="Small"
+                    HorizontalOptions="FillAndExpand"
+                    ItemsSource="{Binding Products}"
+                    SelectedItem="{Binding SelectedProduct}"
+                    BorderColor="LightGray" />
+
+                <Label Text="Descrição" FontSize="Small" />
+                <input:AdvancedEntry
+                       TextFontSize="Small"
+                       TextColor="{DynamicResource Gray1}"
+                       Text="{Binding Description}"
+                       MinLength="14"
+                       MaxLength="30"
+                       BorderColor="LightGray"
+                       Keyboard="Chat" />
+
+                <Label Text="Tipo" FontSize="Small" />
+                <input:Dropdown
+                        FontSize="Small"
+                        BorderColor="LightGray"
+                        ItemsSource="{Binding MeasureTypes}"
+                        SelectedItem="{Binding MeasureTypeSelected}" />
+
+                <Label Text="Valor unitário" FontSize="Small" />
+                <input:AdvancedEntry
+                       TextFontSize="Small"
+                       TextColor="{DynamicResource Gray1}"
+                       Text="{Binding UnitaryValue, Converter={StaticResource CurrencyConverter}}"
+                       Annotation="DigitsOnly"
+                       MinLength="14"
+                       MaxLength="18"
+                       BorderColor="LightGray" />
+
+                <Label Text="Quantidade" FontSize="Small" />
+                <input:AdvancedEntry
+                       TextFontSize="Small"
+                       TextColor="{DynamicResource Gray1}"
+                       Text="{Binding Amount, Converter={StaticResource DecimalConverter}}"
+                       MinLength="14"
+                       MaxLength="18"
+                       BorderColor="LightGray"
+                       Keyboard="Numeric" />
+
+                <StackLayout Spacing="10" Orientation="Vertical">
+                    <Button
+                        Clicked="AddProductToListOfProducts"
+                        FontSize="Small"
+                        Text="Adicionar"
+                        BackgroundColor="{DynamicResource Green4}"
+                        CornerRadius="20"
+                        TextColor="White" />
+                </StackLayout>
+            </input:FormView>
+        </StackLayout>
+    </ScrollView>
+</xct:Popup>

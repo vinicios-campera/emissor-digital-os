@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:OrderService.Converters.Common"
+             xmlns:helpers="clr-namespace:OrderService.Helpers"
+             xmlns:Local="clr-namespace:OrderService.View.Client"
+             xmlns:extended="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling"
+             x:Class="OrderService.Pages.Client.ClientsPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Priority="1"
+            Order="Primary"
+            Clicked="FilterClients">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    Color="{StaticResource Write2}"
+                    FontFamily="{DynamicResource MaterialFontFamily}"
+                    Size="20"
+                    Glyph="{x:Static helpers:FontAwesomeIcons.Filter}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+
+        <ToolbarItem
+            Priority="2"
+            Order="Primary"
+            Clicked="AddClient">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    Color="{StaticResource Write2}"
+                    FontFamily="{DynamicResource MaterialFontFamily}"
+                    Size="20"
+                    Glyph="{x:Static helpers:FontAwesomeIcons.UserPlus}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <converters:DateConverter x:Key="DateConverter" />
+        <converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <Local:ClientsViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout>
+        <ListView ItemsSource="{Binding Items}" CachingStrategy="RecycleElement" HasUnevenRows="True" ItemSelected="ClientSelected">
+            <ListView.Behaviors>
+                <extended:InfiniteScrollBehavior IsLoadingMore="{Binding IsBusy}" />
+            </ListView.Behaviors>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackLayout VerticalOptions="CenterAndExpand" Grid.Column="0">
+                                <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                <Label Text="{Binding Document}" FontSize="Subtitle" />
+                            </StackLayout>
+                            <StackLayout Grid.Column="1">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label
+                                        FontSize="Subtitle"
+                                        Text="{Binding Inserted, Converter={StaticResource DateConverter}}"
+                                        HorizontalTextAlignment="End" />
+                                </StackLayout>
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+            <ListView.Footer>
+                <Grid Padding="6" IsVisible="{Binding IsBusy}">
+                    <Grid.Triggers>
+                        <Trigger TargetType="Grid" Property="IsVisible" Value="False">
+                            <Setter Property="HeightRequest" Value="0" />
+                        </Trigger>
+                    </Grid.Triggers>
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                       Color="{DynamicResource Green4}" VerticalOptions="Center"
+                                       HorizontalOptions="Center" />
+                </Grid>
+            </ListView.Footer>
+        </ListView>
+    </StackLayout>
+</ContentPage>

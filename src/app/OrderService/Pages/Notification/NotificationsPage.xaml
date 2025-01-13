@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:convertersCommon="clr-namespace:OrderService.Converters.Common"
+             xmlns:extended="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling"
+             x:Class="OrderService.Pages.Notification.NotificationsPage"
+             Title="Notificações"
+             x:Name="Notifications">
+
+    <ContentPage.Resources>
+        <convertersCommon:DateConverter x:Key="DateConverter" />
+        <convertersCommon:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView ItemsSource="{Binding Path=Items, Source={x:Reference Notifications}}" CachingStrategy="RecycleElement" HasUnevenRows="True" SelectionMode="None">
+                <ListView.Behaviors>
+                    <extended:InfiniteScrollBehavior IsLoadingMore="{Binding Path=IsLoading, Source={x:Reference Notifications}}" />
+                </ListView.Behaviors>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackLayout VerticalOptions="CenterAndExpand" Grid.Column="0">
+                                    <Label Text="{Binding Title}" FontSize="Medium" FontAttributes="Bold" LineBreakMode="CharacterWrap" />
+                                    <Label Text="{Binding Body}" FontSize="Subtitle" />
+                                </StackLayout>
+                                <StackLayout Grid.Column="1">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label
+                                        FontSize="Subtitle"
+                                        Text="{Binding DateInsert, Converter={StaticResource DateConverter}}"
+                                        HorizontalTextAlignment="End" />
+                                        <Rectangle
+                                            IsVisible="{Binding IsNew}"
+                                            Grid.Column="1"
+                                            Fill="{Binding IsNew, Converter={StaticResource ColorToBrushConverter}}"
+                                            RadiusX="50"
+                                            RadiusY="8"
+                                            WidthRequest="10"
+                                            HeightRequest="50" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+                <ListView.Footer>
+                    <Grid Padding="6" IsVisible="{Binding Path=IsLoading, Source={x:Reference Notifications}}">
+                        <Grid.Triggers>
+                            <Trigger TargetType="Grid" Property="IsVisible" Value="False">
+                                <Setter Property="HeightRequest" Value="0" />
+                            </Trigger>
+                        </Grid.Triggers>
+                        <ActivityIndicator IsRunning="{Binding Path=IsLoading, Source={x:Reference Notifications}}" IsVisible="{Binding Path=IsLoading, Source={x:Reference Notifications}}"
+                                       Color="{DynamicResource Green4}" VerticalOptions="Center"
+                                       HorizontalOptions="Center" />
+                    </Grid>
+                </ListView.Footer>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:OrderService.Behaviors"
+             xmlns:convertersCommon="clr-namespace:OrderService.Converters.Common"
+             xmlns:vm="clr-namespace:OrderService.View.Order"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             xmlns:converterPack="clr-namespace:Xamarin.Forms.ConvertersPack;assembly=Xamarin.Forms.ConvertersPack"
+             x:Class="OrderService.Pages.Order.OrderAddPage"
+             Title="Nova O.S."
+             x:Name="NewOs">
+
+    <ContentPage.Resources>
+        <convertersCommon:MaskNumberConverter x:Key="MaskNumberConverter" />
+        <converterPack:CurrencyConverter x:Key="CurrencyConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <vm:OrderAddViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="20" MinimumWidthRequest="400" Spacing="2">
+                <Label Text="Iniciada em" FontSize="Small" />
+                <input:AdvancedEntry
+                    TextFontSize="Small"
+                    TextColor="{DynamicResource Gray1}"
+                    Text="{Binding StartIn, Converter={StaticResource MaskNumberConverter}, ConverterParameter=##/##/####}"
+                    Annotation="DigitsOnly"
+                    MinLength="12"
+                    MaxLength="12"
+                    BorderColor="LightGray" />
+
+                <Label Text="Finalizada em" FontSize="Small" />
+                <input:AdvancedEntry
+                    TextFontSize="Small"
+                    TextColor="{DynamicResource Gray1}"
+                    Text="{Binding FinishIn, Converter={StaticResource MaskNumberConverter}, ConverterParameter=##/##/####}"
+                    Annotation="DigitsOnly"
+                    MinLength="12"
+                    MaxLength="12"
+                    BorderColor="LightGray" />
+
+                <Label Text="Observação (opcional)" FontSize="Small" />
+                <input:AdvancedEntry
+                    TextFontSize="Small"
+                    TextColor="{DynamicResource Gray1}"
+                    Text="{Binding Note}"
+                    MinLength="0"
+                    MaxLength="200"
+                    BorderColor="LightGray"
+                    Keyboard="Chat"/>
+
+                <Label Text="Desconto" FontSize="Small" />
+                <input:AdvancedEntry
+                    TextFontSize="Small"
+                    TextColor="{DynamicResource Gray1}"
+                    Text="{Binding Discount, Converter={StaticResource CurrencyConverter}}"
+                    Annotation="DigitsOnly"
+                    MinLength="0"
+                    MaxLength="200"
+                    BorderColor="LightGray" />
+
+                <StackLayout Orientation="Horizontal" Spacing="2">
+                    <Label  Text="Produto" FontSize="Small" />
+                    <ActivityIndicator
+                        IsRunning="{Binding Path=IsLoading, Source={x:Reference NewOs}}"
+                        IsVisible="{Binding Path=IsLoading, Source={x:Reference NewOs}}"
+                        HeightRequest="15"
+                        Color="{DynamicResource Green4}"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center" />
+                </StackLayout>
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <input:AdvancedEntry
+                        Grid.Column="0"
+                        Grid.ColumnSpan="5"
+                        Text="{Binding Path=Product, Source={x:Reference NewOs}}"
+                        Placeholder="Buscar"
+                        TextFontSize="Small"
+                        TextColor="{DynamicResource Gray1}"
+                        Annotation="LettersOnly"
+                        MinLength="0"
+                        MaxLength="200"
+                        BorderColor="LightGray"
+                        TextChanged="ProductoTextChanged">
+                        <input:AdvancedEntry.Behaviors>
+                            <behaviors:UserStoppedTypingBehavior
+                                Command="{Binding Path=SearchProductCommand, Source={x:Reference NewOs}}"
+                                StoppedTypingThreshold="2000"
+                                AutoDismissKeyboard="True" />
+                        </input:AdvancedEntry.Behaviors>
+                    </input:AdvancedEntry>
+
+                    <Button
+                        Grid.Column="5"
+                        Grid.ColumnSpan="2"
+                        FontSize="Micro"
+                        Text="Produto não encontrado?"
+                        CornerRadius="20"
+                        BackgroundColor="Transparent"
+                        TextColor="{DynamicResource Red1}"
+                        Clicked="ProductNotExist"/>
+
+                </Grid>
+
+                <ListView SelectionMode="None"
+                          HeightRequest="10"
+                          VerticalOptions="FillAndExpand"
+                          ItemsSource="{Binding Path=ItemsToOrder, Source={x:Reference NewOs}}"
+                          CachingStrategy="RecycleElement"
+                          HasUnevenRows="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout VerticalOptions="CenterAndExpand" Grid.Column="0">
+                                        <Label Text="{Binding Description}" LineBreakMode="TailTruncation" FontAttributes="Bold" />
+                                        <Label Text="{Binding UnitaryValue, Converter={StaticResource CurrencyConverter}}" FontSize="12" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Vertical" Grid.Column="1">
+                                        <Label
+                                            FontSize="Caption"
+                                            Text="{Binding Amount, StringFormat='Qtd {0}'}"
+                                            HorizontalTextAlignment="Center" />
+                                        <Label
+                                            TextColor="{DynamicResource Red1}"
+                                            FontAttributes="Bold"
+                                            FontSize="Caption"
+                                            Text="Excluir"
+                                            HorizontalTextAlignment="Center">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="DeleteProductToListOfProducts" CommandParameter="{Binding .}" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </StackLayout>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <StackLayout Orientation="Vertical" VerticalOptions="Center">
+                        <Label Text="{Binding Path=AmountOrder, Source={x:Reference NewOs}, Converter={StaticResource CurrencyConverter}, StringFormat='Total: {0}'}" FontAttributes="Bold" />
+                    </StackLayout>
+                    <Button
+                        FontSize="Small"
+                        Text="Criar O.S."
+                        CornerRadius="20"
+                        BackgroundColor="Transparent"
+                        TextColor="{DynamicResource Green4}"
+                        Clicked="AddOrder" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

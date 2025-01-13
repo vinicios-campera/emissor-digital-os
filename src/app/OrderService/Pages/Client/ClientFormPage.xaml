@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:convertersClient="clr-namespace:OrderService.Converters.Client"
+             xmlns:convertersCommon="clr-namespace:OrderService.Converters.Common"
+             xmlns:Local="clr-namespace:OrderService.View.Client"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             x:Class="OrderService.Pages.Client.ClientFormPage">
+
+    <ContentPage.Resources>
+        <convertersClient:DocumentConverter x:Key="DocumentConverter" />
+        <convertersCommon:MaskNumberConverter x:Key="MaskNumberConverter" />
+        <convertersCommon:PhoneConverter x:Key="PhoneConverter" />
+        <convertersCommon:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <Local:ClientFormViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="10" MinimumWidthRequest="400" Spacing="2">
+                <input:FormView IsValidated="{Binding IsValidated} ">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackLayout Grid.ColumnSpan="4" Grid.Row="0">
+                            <Label Text="{Binding NameLabel}" FontSize="Small" />
+                            <input:AdvancedEntry
+                               TextFontSize="Small"
+                               TextColor="{DynamicResource Gray1}"
+                               Text="{Binding Name}"
+                               Annotation="LettersOnly"
+                               AnnotationColor="{DynamicResource Red1}"
+                               ValidationMessage="Nome/Razão social invalido"
+                               MinLength="4"
+                               MaxLength="50"
+                               BorderColor="LightGray">
+                                <input:AdvancedEntry.Keyboard>
+                                    <Keyboard x:FactoryMethod="Create">
+                                        <x:Arguments>
+                                            <KeyboardFlags>CapitalizeWord</KeyboardFlags>
+                                        </x:Arguments>
+                                    </Keyboard>
+                                </input:AdvancedEntry.Keyboard>
+                            </input:AdvancedEntry>
+                        </StackLayout>
+
+                        <StackLayout Grid.ColumnSpan="4" Grid.Row="1">
+                            <Label Text="{Binding DocumentLabel}" FontSize="Small" />
+                            <input:AdvancedEntry
+                               TextFontSize="Small"
+                               TextColor="{DynamicResource Gray1}"
+                               Text="{Binding Document, Converter={StaticResource DocumentConverter}}"
+                               Annotation="DigitsOnly"
+                               AnnotationColor="{DynamicResource Red1}"
+                               ValidationMessage="Documento invalido"
+                               MinLength="14"
+                               MaxLength="18"
+                               BorderColor="LightGray"
+                               TextChanged="DocumentChanged" />
+                        </StackLayout>
+
+                        <StackLayout Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2">
+                            <Label Text="CEP" FontSize="Small" />
+                            <input:AdvancedEntry
+                               TextFontSize="Small"
+                               TextColor="{DynamicResource Gray1}"
+                               Text="{Binding Cep, Converter={StaticResource MaskNumberConverter}, ConverterParameter=#####-###}"
+                               Annotation="DigitsOnly"
+                               AnnotationColor="{DynamicResource Red1}"
+                               ValidationMessage="CEP inválido"
+                               MinLength="9"
+                               MaxLength="9"
+                               BorderColor="LightGray"
+                               TextChanged="CepTextChanged">
+                            </input:AdvancedEntry>
+                        </StackLayout>
+
+                        <StackLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3">
+                            <Label Text="Cidade" FontSize="Small" />
+                            <input:AdvancedEntry
+                               TextFontSize="Small"
+                               TextColor="{DynamicResource Gray1}"
+                               Text="{Binding City}"
+                               Annotation="LettersOnly"
+                               AnnotationColor="{DynamicResource Red1}"
+                               ValidationMessage="Cidade inválida"
+                               MinLength="4"
+                               MaxLength="50"
+                               BorderColor="LightGray" />
+                        </StackLayout>
+
+                        <StackLayout Grid.Column="3" Grid.ColumnSpan="1" Grid.Row="3">
+                            <Label Text="UF" FontSize="Small" />
+                            <input:AdvancedEntry
+                               TextFontSize="Small"
+                               TextColor="{DynamicResource Gray1}"
+                               Text="{Binding State}"
+                               Annotation="LettersOnly"
+                               AnnotationColor="{DynamicResource Red1}"
+                               ValidationMessage="UF inválida"
+                               MinLength="2"
+                               MaxLength="2"
+                               BorderColor="LightGray" />
+                        </StackLayout>
+
+                        <StackLayout Grid.ColumnSpan="4" Grid.Row="4">
+                            <Label Text="Celular" FontSize="Small" />
+                            <input:AdvancedEntry
+                               TextFontSize="Small"
+                               TextColor="{DynamicResource Gray1}"
+                               Text="{Binding Cellphone, Converter={StaticResource PhoneConverter}}"
+                               Annotation="DigitsOnly"
+                               AnnotationColor="{DynamicResource Red1}"
+                               ValidationMessage="Telefone inválido"
+                               MinLength="14"
+                               MaxLength="14"
+                               BorderColor="LightGray" />
+                        </StackLayout>
+                    </Grid>
+
+                    <StackLayout Spacing="10" Orientation="Vertical">
+                        <Button
+                            IsVisible="{Binding IsEditing, Converter={StaticResource InverseBoolConverter}}"
+                            Clicked="AddClient"
+                            FontSize="Small"
+                            Text="Adicionar"
+                            BackgroundColor="{DynamicResource Green4}"
+                            CornerRadius="20"
+                            TextColor="White" />
+
+                        <Button
+                            IsVisible="{Binding IsEditing}"
+                            Clicked="EditClient"
+                            FontSize="Small"
+                            Text="Editar"
+                            BackgroundColor="{DynamicResource Green4}"
+                            CornerRadius="20"
+                            TextColor="White" />
+
+                        <Button
+                            IsVisible="{Binding IsEditing}"
+                            Clicked="DeleteClient"
+                            FontSize="Small"
+                            Text="Remover"
+                            BackgroundColor="{DynamicResource Write1}"
+                            CornerRadius="20"
+                            TextColor="{DynamicResource Red1}" />
+                    </StackLayout>
+                </input:FormView>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,35 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- Defaults -->
+	<PropertyGroup>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>10.0</LangVersion>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+	</PropertyGroup>
+
+	<!-- Directories -->
+	<PropertyGroup>
+		<RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))</RepoRoot>
+	</PropertyGroup>
+
+	<!-- Build -->
+	<PropertyGroup>
+		<OutputPath>$(RepoRoot)outputs\bin\$(Configuration)</OutputPath>
+		<BaseIntermediateOutputPath>$(RepoRoot)outputs\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+	</PropertyGroup>
+
+	<!-- Projects -->
+	<ItemGroup Condition=" '$(ImportDomainPrj)' == 'true' ">
+		<ProjectReference Include="$(RepoRoot)src\api\Domain\Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(ImportApplicationPrj)' == 'true' ">
+		<ProjectReference Include="$(RepoRoot)src\api\Application\Application.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(ImportInfrastructurePrj)' == 'true' ">
+		<ProjectReference Include="$(RepoRoot)src\api\Infrastructure\Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>

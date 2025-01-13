@@ -1,0 +1,31 @@
+version: '3'
+name: order-service
+
+services:
+  order-service-api:
+    container_name: order-service-api
+    image: ghcr.io/vinicios-campera/order-service-api:latest
+    pull_policy: always
+    restart: always
+    ports:
+      - "5002:5002"
+    networks:
+      - main
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:5002
+      INITIAL_CATALOG: OrderServiceProd
+  order-service-web:
+    container_name: order-service-web
+    image: ghcr.io/vinicios-campera/order-service-web:latest
+    pull_policy: always
+    restart: always
+    ports:
+      - "3000:80"
+    networks:
+      - main
+networks:
+  main:
+    name: main
+    driver: bridge
+    external: true

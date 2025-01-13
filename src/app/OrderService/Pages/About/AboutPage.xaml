@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:OrderService.Helpers"
+             x:Class="OrderService.Pages.About.AboutPage"
+             Title="Sobre"
+             x:Name="About">
+    <ContentPage.Content>
+        <StackLayout  Padding="10" Orientation="Vertical" Spacing="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="0" HorizontalOptions="Start">
+                    <Label Text="Versão" FontSize="Small" FontAttributes="Bold" />
+                    <Label Text="Versão atual instalada" FontSize="Small" />
+                </StackLayout>
+
+                <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="1" HorizontalOptions="Start">
+                    <Label Text="Ambiente" FontSize="Small" FontAttributes="Bold" />
+                    <Label Text="Ambiente atual do sistema" FontSize="Small" />
+                </StackLayout>
+
+                <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="2" HorizontalOptions="Start">
+                    <Label Text="Importar foto?" FontSize="Small" FontAttributes="Bold" />
+                    <Label Text="Adicionar sua foto ao PDF?" FontSize="Small" />
+                </StackLayout>
+
+                <Label Grid.Column="1" Grid.Row="0" Text="{Binding Path=Version, Source={x:Reference About}}" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="End" />
+                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Path=Environment, Source={x:Reference About}}" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="End" />
+                <Switch
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    IsToggled="{Binding Path=AddPhoto, Source={x:Reference About}}"
+                    Toggled="SwitchAddPhoto"
+                    ThumbColor="{DynamicResource Green4}" />
+            </Grid>
+
+            <BoxView HeightRequest="1" Color="LightGray" />
+
+            <StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Grid.Column="0" Grid.Row="0">
+                        <Frame CornerRadius="15" Padding="18" HeightRequest="50" WidthRequest="50" HasShadow="False" BackgroundColor="{DynamicResource Green4}">
+                            <Frame.Content>
+                                <StackLayout Spacing="0">
+                                    <Image HorizontalOptions="StartAndExpand">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                        Color="{StaticResource Write2}"
+                                                        FontFamily="{DynamicResource MaterialFontFamily}"
+                                                        Size="25"
+                                                        Glyph="{x:Static helpers:FontAwesomeIcons.UserLock}" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Label Text="Politica de Privacidade" MaxLines="1" LineBreakMode="TailTruncation" FontSize="Small" FontAttributes="Bold" TextColor="{StaticResource Write2}" VerticalOptions="EndAndExpand" />
+                                </StackLayout>
+                            </Frame.Content>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PrivacyPolicy" NumberOfTapsRequired="1" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </StackLayout>
+
+                    <!--<StackLayout Grid.Column="1" Grid.Row="0">
+                        <Frame CornerRadius="15" Padding="18" HeightRequest="50" WidthRequest="50" HasShadow="False" BackgroundColor="{DynamicResource Green4}">
+                            <Frame.Content>
+                                <StackLayout Spacing="0">
+                                    <Image HorizontalOptions="StartAndExpand">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                        Color="{StaticResource Write2}"
+                                                        FontFamily="{DynamicResource MaterialFontFamily}"
+                                                        Size="25"
+                                                        Glyph="{x:Static helpers:FontAwesomeIcons.InfoCircle}" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Label Text="Meus dados pessoais" MaxLines="1" LineBreakMode="TailTruncation" FontSize="Small" FontAttributes="Bold" TextColor="{StaticResource Write2}" VerticalOptions="EndAndExpand" />
+                                </StackLayout>
+                            </Frame.Content>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PersonalData" NumberOfTapsRequired="1" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </StackLayout>-->
+
+                    <StackLayout Grid.Column="1" Grid.Row="0">
+                        <Frame CornerRadius="15" Padding="18" HeightRequest="50" WidthRequest="50" HasShadow="False" BackgroundColor="{DynamicResource Red1}">
+                            <Frame.Content>
+                                <StackLayout Spacing="0">
+                                    <Image HorizontalOptions="StartAndExpand">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                        Color="{StaticResource Write2}"
+                                                        FontFamily="{DynamicResource MaterialFontFamily}"
+                                                        Size="25"
+                                                        Glyph="&#xf00d;" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Label Text="Excluir minha conta" MaxLines="1" LineBreakMode="TailTruncation" FontSize="Small" FontAttributes="Bold" TextColor="{StaticResource Write2}" VerticalOptions="EndAndExpand" />
+                                </StackLayout>
+                            </Frame.Content>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="DeleteAccount" NumberOfTapsRequired="1" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

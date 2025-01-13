@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             xmlns:helpers="clr-namespace:OrderService.Helpers"
+             x:Class="OrderService.MainPage"
+             NavigationPage.HasNavigationBar="false">
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="20" MinimumWidthRequest="400" Spacing="2">
+                <Lottie:AnimationView
+                Animation="order-service.json"
+                AutoPlay="True"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                RepeatMode="Infinite"
+                EnableMergePathsForKitKatAndAbove="True"
+                HeightRequest="300"
+                WidthRequest="10" />
+
+                <input:FormView>
+                    <Label Text="Email" FontSize="Small" />
+                    <input:AdvancedEntry
+                       TextFontSize="Small"
+                       TextColor="{DynamicResource Gray1}"
+                       Annotation="LettersOnly"
+                       AnnotationColor="{DynamicResource Red1}"
+                       MinLength="4"
+                       MaxLength="50"
+                       BorderColor="LightGray"
+                       Keyboard="Email"
+                       x:Name="EmailInput"
+                       Text="">
+                    </input:AdvancedEntry>
+
+                    <Label Text="Senha" FontSize="Small" />
+                    <input:AdvancedEntry
+                       TextFontSize="Small"
+                       TextColor="{DynamicResource Gray1}"
+                       Annotation="LettersOnly"
+                       AnnotationColor="{DynamicResource Red1}"
+                       MinLength="4"
+                       MaxLength="50"
+                       BorderColor="LightGray"
+                       IsPassword="true"
+                       x:Name="PasswordInput"
+                       Text="">
+                    </input:AdvancedEntry>
+                </input:FormView>
+
+                <Button Style="{DynamicResource PrimaryButtonStyle}" Margin="5" Text="Entrar" Clicked="Login_Clicked" />
+                <Button Style="{DynamicResource PrimaryButtonStyle}" Margin="5" Text="Entrar com Google" Clicked="Login_Google_Clicked" 
+                        BackgroundColor="#c0392b" 
+                        TextColor="White" 
+                        CornerRadius="20"/>
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Local="clr-namespace:OrderService.View.Item"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             xmlns:converterPack="clr-namespace:Xamarin.Forms.ConvertersPack;assembly=Xamarin.Forms.ConvertersPack"
+             xmlns:convertersCommon="clr-namespace:OrderService.Converters.Common"
+             x:Class="OrderService.Pages.Item.ItemFormPage"
+             Title="Novo produto">
+
+    <ContentPage.Resources>
+        <converterPack:CurrencyConverter x:Key="CurrencyConverter" />
+        <convertersCommon:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <Local:ItemFormViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="20" MinimumWidthRequest="400" Spacing="2">
+                <input:FormView IsValidated="{Binding IsValidated} ">
+                    <Label Text="Descrição" FontSize="Small" />
+                    <input:AdvancedEntry
+                       TextFontSize="Small"
+                       TextColor="{DynamicResource Gray1}"
+                       Text="{Binding Description}"
+                       Annotation="LettersOnly"
+                       AnnotationColor="{DynamicResource Red1}"
+                       ValidationMessage="Descrição invalida"
+                       MinLength="4"
+                       MaxLength="50"
+                       BorderColor="LightGray">
+                        <input:AdvancedEntry.Keyboard>
+                            <Keyboard x:FactoryMethod="Create">
+                                <x:Arguments>
+                                    <KeyboardFlags>CapitalizeWord</KeyboardFlags>
+                                </x:Arguments>
+                            </Keyboard>
+                        </input:AdvancedEntry.Keyboard>
+                    </input:AdvancedEntry>
+
+                    <Label Text="Tipo" FontSize="Small" />
+                    <input:Dropdown
+                        FontSize="Small"
+                        AnnotationColor="{DynamicResource Red1}"
+                        BorderColor="LightGray"
+                        TextColor="{DynamicResource Gray1}"
+                        ItemsSource="{Binding MeasureTypes}"
+                        SelectedItem="{Binding MeasureTypeSelected}" />
+
+                    <Label Text="Valor unitário" FontSize="Small" />
+                    <input:AdvancedEntry
+                       TextFontSize="Small"
+                       TextColor="{DynamicResource Gray1}"
+                       Text="{Binding UnitaryValue, Converter={StaticResource CurrencyConverter}}"
+                       Annotation="DigitsOnly"
+                       AnnotationColor="{DynamicResource Red1}"
+                       ValidationMessage="Documento invalido"
+                       MinLength="14"
+                       MaxLength="18"
+                       BorderColor="LightGray" />
+
+                    
+                    <StackLayout Spacing="10" Orientation="Vertical">
+                        <Button
+                            IsVisible="{Binding IsEditing, Converter={StaticResource InverseBoolConverter}}"
+                            Clicked="AddItem"
+                            FontSize="Small"
+                            Text="Adicionar"
+                            BackgroundColor="{DynamicResource Green4}"
+                            CornerRadius="20"
+                            HeightRequest="35"
+                            TextColor="White" />
+                        
+                        <Button
+                            IsVisible="{Binding IsEditing}"
+                            Clicked="EditItem"
+                            FontSize="Small"
+                            Text="Editar"
+                            BackgroundColor="{DynamicResource Green4}"
+                            CornerRadius="20"
+                            HeightRequest="35"
+                            TextColor="White" />
+
+                        <Button
+                            IsVisible="{Binding IsEditing}"
+                            Clicked="DeleteItem"
+                            FontSize="Small"
+                            Text="Remover"
+                            BackgroundColor="{DynamicResource Write1}"
+                            CornerRadius="20"
+                            HeightRequest="35"
+                            TextColor="{DynamicResource Red1}" />
+                    </StackLayout>
+                </input:FormView>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

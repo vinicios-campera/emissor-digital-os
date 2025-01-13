@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "307689100498",
+    "project_id": "emissor-digital-de-os-ed4b2",
+    "storage_bucket": "emissor-digital-de-os-ed4b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:307689100498:android:db63b9057ea889a813890b",
+        "android_client_info": {
+          "package_name": "com.viniciosbryam.orderservice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "307689100498-k6lob0cd79fi11k4d5mthke6ro9igfoo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.viniciosbryam.orderservice",
+            "certificate_hash": "b97ec4d2f92009bfca3bf5e26a2e40b794b10969"
+          }
+        },
+        {
+          "client_id": "307689100498-figro2ja2ijbpdunia5ncodmkddt5fsr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDasiV7YIkCymAgsvAlQTYUWeVKJW9rcdE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "307689100498-6ler8jp5o2nivgfe77mkucr7ectvrmea.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

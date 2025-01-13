@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xct:Popup x:Name="OrderPopupRoot"
+           xmlns="http://xamarin.com/schemas/2014/forms"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:helpers="clr-namespace:OrderService.Helpers"
+           xmlns:localView="clr-namespace:OrderService.View.Order"
+           xmlns:xct="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
+           x:Class="OrderService.Pages.Order.OrderPopup">
+
+    <xct:Popup.BindingContext>
+        <localView:OrderViewModel />
+    </xct:Popup.BindingContext>
+
+    <ScrollView>
+        <StackLayout Padding="20" MinimumWidthRequest="400" Spacing="2">
+            <Label Text="{Binding Identifier, StringFormat='Ordem de serviço {0}'}" FontAttributes="Bold" FontSize="Medium" />
+            <BoxView HeightRequest="1" Color="LightGray" />
+
+            <StackLayout Orientation="Vertical" Spacing="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="0" HorizontalOptions="Start">
+                        <Label Text="Paga?" FontSize="Small" FontAttributes="Bold" />
+                        <Label Text="A O.S. já foi paga" FontSize="Small" />
+                    </StackLayout>
+
+                    <Switch
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        IsToggled="{Binding Pay}"
+                        Toggled="SwitchPay"
+                        ThumbColor="{DynamicResource Green4}" />
+                </Grid>
+
+                <BoxView HeightRequest="1" Color="LightGray" />
+
+                <StackLayout>
+                    <Grid Padding="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackLayout Grid.Column="0">
+                            <Frame CornerRadius="15" Padding="18" HeightRequest="50" WidthRequest="50" HasShadow="False" BackgroundColor="{DynamicResource Green4}">
+                                <Frame.Content>
+                                    <StackLayout Spacing="0">
+                                        <Image HorizontalOptions="StartAndExpand">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                        Color="{StaticResource Write2}"
+                                                        FontFamily="{DynamicResource MaterialFontFamily}"
+                                                        Size="25"
+                                                        Glyph="{x:Static helpers:FontAwesomeIcons.FilePdf}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Label Text="PDF" MaxLines="1" LineBreakMode="TailTruncation" FontSize="Small" FontAttributes="Bold" TextColor="{StaticResource Write2}" VerticalOptions="EndAndExpand" />
+                                    </StackLayout>
+                                </Frame.Content>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="GetPdf" NumberOfTapsRequired="1" />
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </StackLayout>
+
+                        <StackLayout Grid.Column="1">
+                            <Frame CornerRadius="15" Padding="18" HeightRequest="50" WidthRequest="50" HasShadow="False" BackgroundColor="{DynamicResource Green4}">
+                                <Frame.Content>
+                                    <StackLayout Spacing="0">
+                                        <Image HorizontalOptions="StartAndExpand">
+                                            <Image.Source>
+                                                <FontImageSource
+                                                        Color="{StaticResource Write2}"
+                                                        FontFamily="{DynamicResource MaterialFontFamily}"
+                                                        Size="25"
+                                                        Glyph="&#xf00d;" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Label Text="Excluir" MaxLines="1" LineBreakMode="TailTruncation" FontSize="Small" FontAttributes="Bold" TextColor="{StaticResource Write2}" VerticalOptions="EndAndExpand" />
+                                    </StackLayout>
+                                </Frame.Content>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="DeleteOrder" NumberOfTapsRequired="1" />
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+
+                <Label Text="{Binding Note}" FontSize="Small" FontAttributes="Bold" />
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</xct:Popup>
