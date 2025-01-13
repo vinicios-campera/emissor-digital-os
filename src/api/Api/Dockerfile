@@ -16,6 +16,7 @@ COPY ["src/api/Domain/Domain.csproj", "src/api/Domain/"]
 
 ARG GITHUB_USERNAME
 ARG GITHUB_TOKEN
+RUN dotnet nuget source remove --name vinicios-campera-github
 RUN dotnet nuget add source https://nuget.pkg.github.com/vinicios-campera/index.json \
     --name vinicios-campera-github \
     --username $GITHUB_USERNAME \
