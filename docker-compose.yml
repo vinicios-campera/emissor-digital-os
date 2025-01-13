@@ -17,7 +17,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://+:5002
       INITIAL_CATALOG: OrderServiceProd
-      GITHUB_USERNAME: vinicioscampera@gmail.com
+      GITHUB_USERNAME: ""
       GITHUB_TOKEN: ""
   order-service-web:
     container_name: order-service-web
