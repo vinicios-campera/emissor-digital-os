@@ -14,7 +14,15 @@ COPY ["src/api/Infrastructure/Infrastructure.csproj", "src/api/Infrastructure/"]
 COPY ["src/api/Application/Application.csproj", "src/api/Application/"]
 COPY ["src/api/Domain/Domain.csproj", "src/api/Domain/"]
 
-RUN dotnet restore --configfile "./nuget.config" "./src/api/Api/OrderService.Api.csproj"
+ARG GITHUB_USERNAME
+ARG GITHUB_TOKEN
+RUN dotnet nuget add source https://nuget.pkg.github.com/vinicios-campera/index.json \
+    --name vinicios-campera-github \
+    --username $GITHUB_USERNAME \
+    --password $GITHUB_TOKEN \
+    --store-password-in-clear-text
+
+RUN dotnet restore "./src/api/Api/OrderService.Api.csproj"
 COPY . .
 
 WORKDIR "/src/src/api/Api"

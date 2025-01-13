@@ -4,7 +4,11 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json /app/
 COPY package-lock.json /app/
 COPY .env /app/
-COPY .npmrc /app/
+
+ARG GITHUB_TOKEN
+RUN echo "@vinicios-campera:registry=https://npm.pkg.github.com" > /app/.npmrc \
+    && echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> /app/.npmrc
+
 RUN npm install --ignore-engines
 COPY . /app
 RUN npm run build
