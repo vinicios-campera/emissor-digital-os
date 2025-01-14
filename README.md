@@ -2,28 +2,20 @@
 
 Neste repositório, contém o código fonte do projeto Emissor digital de Ordem de Serviço
 
+# orientações em geral (TODO)
+
 ## debug
 
-TODO
+## nuget.config
 
 ## deploy com docker
 
-TODO
-
-## arquivos env
-
-TODO
+## arquivos env (api e web)
 
 ## google-services.json
 
-TODO
-
 ## appsettings.json (api - firebase)
 
-TODO
-
 ## contants (web - firebase)
-
-TODO
 
 ## nswag (client api - app e web)
