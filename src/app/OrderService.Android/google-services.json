@@ -18,7 +18,7 @@
           "client_type": 1,
           "android_info": {
             "package_name": "com.viniciosbryam.orderservice",
-            "certificate_hash": "b97ec4d2f92009bfca3bf5e26a2e40b794b10969"
+            "certificate_hash": "<CERTIFICATE_HASH>"
           }
         },
         {
@@ -28,7 +28,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDasiV7YIkCymAgsvAlQTYUWeVKJW9rcdE"
+          "current_key": "<CURRENT_API_KEY>"
         }
       ],
       "services": {

@@ -13,9 +13,7 @@ using System.Linq.Expressions;
 using Kernel.Data.AutoMapper.Extensions;
 using Kernel.Net.Http.Interfaces;
 using Kernel.Toolkit.Extensions;
-using OrderService.Infrastructure.Repositories.MongoDb;
-using Kernel.Net.Http.User;
-using OrderService.Infrastructure.AutoMapper.Mappers;
+using Microsoft.Extensions.Configuration;
 
 namespace OrderService.Infrastructure.Services
 {
@@ -29,8 +27,15 @@ namespace OrderService.Infrastructure.Services
         private readonly IUserService _userService;
         private readonly IUserAccessor _userAccessor;
         private readonly Expression<Func<Order, bool>> _defaultExpression;
+        private readonly IConfiguration _configuration;
 
-        public OrderService(IMapper mapper, IUserAccessor userAccessor, IOrderRepository orderRepository, IProductService productService, IClientService clientService, IUserService userService)
+        public OrderService(IMapper mapper, 
+            IUserAccessor userAccessor, 
+            IOrderRepository orderRepository, 
+            IProductService productService, 
+            IClientService clientService, 
+            IUserService userService,
+            IConfiguration configuration)
         {
             _mapper = mapper;
             _orderRepository = orderRepository;
@@ -39,6 +44,7 @@ namespace OrderService.Infrastructure.Services
             _userService = userService;
             _userAccessor = userAccessor;
             _defaultExpression = x => x.UserEmail == userAccessor.GetUserEmail();
+            _configuration = configuration;
         }
 
         public OrderPdfResponse? AddOrder(OrderInsert payload)
@@ -151,8 +157,7 @@ namespace OrderService.Infrastructure.Services
         {
             var order = _orderRepository.FindById(id);
             var orderMapped = _mapper.Map<OrderDetailResponse>(order);
-            var request = _userAccessor.GetContext().Request;
-            orderMapped.PdfUrl = $"https{Uri.SchemeDelimiter}osdigital.vintech.dev.br{request.PathBase.Add(request.Path.Value.Split("detail")[0])}document/{orderMapped.Id}";
+            orderMapped.PdfUrl = $"{_configuration.GetValue<string>("Urls:BaseOrderPdf")}/{orderMapped.Id}";
             return orderMapped;
         }
 

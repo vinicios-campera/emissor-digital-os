@@ -20,6 +20,12 @@ services:
       ASPNETCORE_URLS: http://+:5002
       INITIAL_CATALOG: OrderServiceProd
       ConnectionStrings__MongoDb: ${CONNECTION_STRING_MONGODB}
+      FirebaseCloudMessaging__PrivateKeyId: ${FIREBASE_PRIVATE_KEY_ID}
+      FirebaseCloudMessaging__ClientEmail: ${FIREBASE_CLIENT_EMAIL}
+      FirebaseCloudMessaging__ClientId: ${FIREBASE_CLIENT_ID}
+      Urls__DownloadApk: ${URL_DOWNLOAD_APK}
+      Urls__BaseUserPicture: ${URL_BASE_GET_USER_PICTURE}
+      Urls__BaseOrderPdf: ${URL_BASE_GET_PDF}
   web:
     container_name: emissor-digital-os-web
     build:

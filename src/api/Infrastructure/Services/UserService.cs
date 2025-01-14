@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Kernel.Net.Http.Interfaces;
 using Kernel.Toolkit.Extensions;
+using Microsoft.Extensions.Configuration;
 using OrderService.Application.Interfaces.Repositories;
 using OrderService.Application.Interfaces.Services;
 using OrderService.Domain.Dto.Response;
@@ -19,6 +20,7 @@ namespace OrderService.Infrastructure.Services
         private readonly Lazy<IOrderService> _orderService;
         private readonly Lazy<IProductService> _productService;
         private readonly Lazy<INotificationService> _notificationService;
+        private readonly IConfiguration _configuration;
 
         public UserService(IMapper mapper,
             IUserAccessor userAccessor,
@@ -27,7 +29,8 @@ namespace OrderService.Infrastructure.Services
             Lazy<IClientService> clientService,
             Lazy<IOrderService> orderService,
             Lazy<IProductService> productService,
-            Lazy<INotificationService> notificationService)
+            Lazy<INotificationService> notificationService, 
+            IConfiguration configuration)
         {
             _mapper = mapper;
             _userAccessor = userAccessor;
@@ -37,6 +40,7 @@ namespace OrderService.Infrastructure.Services
             _orderService = orderService;
             _productService = productService;
             _notificationService = notificationService;
+            _configuration = configuration;
         }
 
         public bool AcceptPrivacyPolicy()
@@ -91,8 +95,7 @@ namespace OrderService.Infrastructure.Services
             var userMapped = _mapper.Map<UserResponse>(user);
             var notifications = _notificationService.Value.GetNotifications(x => true, true).OrderByDescending(x => x.Inserted).TakeLast(5);
             userMapped.Notifications = _mapper.Map<List<UserNotificationResponse>>(notifications);
-            var request = _userAccessor.GetContext().Request;
-            userMapped.PictureUrl = $"https{Uri.SchemeDelimiter}osdigital.vintech.dev.br{request.PathBase.Add(request.Path)}/picture/{userMapped.Id}";
+            userMapped.PictureUrl = $"{_configuration.GetValue<string>("Urls:BaseUserPicture")}/{userMapped.Id}";
             return userMapped;
         }
 

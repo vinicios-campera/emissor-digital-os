@@ -21,7 +21,6 @@ export const allLangs = [
 export const defaultLang = allLangs[0];
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyDYMZEHOh2TRUgA9uB-eh94ADRf4JlqHPY",
   authDomain: "emissor-digital-de-os-ed4b2.firebaseapp.com",
   projectId: "emissor-digital-de-os-ed4b2",
   storageBucket: "emissor-digital-de-os-ed4b2.appspot.com",

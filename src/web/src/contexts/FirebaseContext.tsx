@@ -18,7 +18,10 @@ import {
   FirebaseContextType,
 } from "./auth";
 
-const firebaseApp = initializeApp(firebaseConfig);
+const firebaseApp = initializeApp({
+  ...firebaseConfig,
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+});
 
 const AUTH = getAuth(firebaseApp);
 
