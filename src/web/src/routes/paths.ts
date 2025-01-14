@@ -5,7 +5,7 @@ function path(root: string, sublink: string) {
 export const AUTHOR = {
   mail: "vinicioscampera@gmail.com",
   instagram: "https://www.instagram.com/vinicioscampera",
-  linkedin: "https://www.linkedin.com/in/vinicios-bryam-campera",
+  linkedin: "https://www.linkedin.com/in/vinicios-campera",
 };
 
 export const ROOT = "/";
