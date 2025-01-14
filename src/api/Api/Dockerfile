@@ -16,14 +16,8 @@ COPY ["src/api/Domain/Domain.csproj", "src/api/Domain/"]
 
 ARG GITHUB_USERNAME
 ARG GITHUB_TOKEN
-RUN dotnet nuget source remove --name vinicios-campera-github
-RUN dotnet nuget add source https://nuget.pkg.github.com/vinicios-campera/index.json \
-    --name vinicios-campera-github \
-    --username $GITHUB_USERNAME \
-    --password $GITHUB_TOKEN \
-    --valid-authentication-types basic \
-    --store-password-in-clear-text \
-    --protocol-version 3
+RUN sed -i "s|%GITHUB_USERNAME%|${GITHUB_USERNAME}|g" nuget.config && \
+    sed -i "s|%GITHUB_TOKEN%|${GITHUB_TOKEN}|g" nuget.config
 
 RUN dotnet restore "./src/api/Api/OrderService.Api.csproj"
 COPY . .

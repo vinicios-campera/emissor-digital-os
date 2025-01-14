@@ -72,7 +72,7 @@ export default function Router() {
       },
     ],
     version: {
-      description: "v.0.1.0",
+      description: "v.1.0.0",
       path: LANDING.root,
       target: "_self",
     },

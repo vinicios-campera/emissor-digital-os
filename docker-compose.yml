@@ -19,6 +19,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://+:5002
       INITIAL_CATALOG: OrderServiceProd
+      ConnectionStrings__MongoDb: ${CONNECTION_STRING_MONGODB}
   web:
     container_name: emissor-digital-os-web
     build:

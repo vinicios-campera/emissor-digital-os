@@ -1,6 +1,6 @@
 {
   "name": "emissor-digital-de-os",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -18,7 +18,7 @@
     "@types/node": "^16.18.96",
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
-    "@vinicios-campera/kernel-react": "^2.0.0",
+    "@vinicios-campera/kernel-react": "^1.0.0",
     "axios": "^1.6.8",
     "change-case": "^5.4.4",
     "date-fns": "^3.6.0",
