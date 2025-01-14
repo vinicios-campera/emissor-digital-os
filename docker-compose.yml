@@ -26,6 +26,7 @@ services:
       Urls__DownloadApk: ${URL_DOWNLOAD_APK}
       Urls__BaseUserPicture: ${URL_BASE_GET_USER_PICTURE}
       Urls__BaseOrderPdf: ${URL_BASE_GET_PDF}
+      Urls__TermsOfService: ${URL_TERM_OF_SERVICE}
   web:
     container_name: emissor-digital-os-web
     build:

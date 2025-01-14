@@ -48,7 +48,7 @@ builder.Services
         opt.Title = builder.Configuration.GetValue<string>("SwaggerDocAndSecurity:Title");
         opt.Description = builder.Configuration.GetValue<string>("SwaggerDocAndSecurity:Description");
         opt.Mainteiner = builder.Configuration.GetValue<string>("SwaggerDocAndSecurity:Mainteiner");
-        opt.TermsOfService = builder.Configuration.GetValue<string>("SwaggerDocAndSecurity:TermsOfService");
+        opt.TermsOfService = builder.Configuration.GetValue<string>("Urls:TermsOfService");
         opt.MainteinerEmail = builder.Configuration.GetValue<string>("SwaggerDocAndSecurity:MainteinerEmail");
         opt.Type = SwaggerDocAndSecurityType.JWT;
     })
